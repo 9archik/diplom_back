@@ -1,0 +1,16 @@
+# Первый запуск на хосте: mkdir -p docker-data && touch docker-data/app.db
+# Сборка: docker compose build
+# Запуск: docker compose up -d
+# Для linux/amd64 с Apple Silicon: docker compose build --build-arg ...
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    volumes:
+      # Персистентная SQLite (путь в приложении: /app/app.db)
+      - ./docker-data/app.db:/app/app.db
+      # Раскомментируйте, чтобы подменять веса без пересборки образа:
+      # - ./docker-data/models:/app/ml/models
